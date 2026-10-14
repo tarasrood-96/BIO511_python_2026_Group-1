@@ -1,3 +1,7 @@
+### Practical 2
+
+### 14.10.2026 (07.10.2026)
+
 # make a list
 # my_list = ["b", "list", "perseverance", "har", "theory", "och", "complex", 72]
 
@@ -134,24 +138,120 @@ for index, base in enumerate(sequence):
 ## Add a variable in the beginning of the code count_a = 3 and reuse that in both loops
 
 # you can now easily change the value for both loops
-# What happens if you look for the tenth A in the sequence?
 
 sequence = 'GATTACAGAACTGATAC'
-count_a = 3
-position2 = 0
+count_a = 3     # which A we're looking for
 
-while count_a < 13:
-   if sequence[position2] == "A":
-      count_a += 1
-   position2 += 1
+# while loop
+a_count = 0     # how many A's we've seen
+position = 0
+while a_count < count_a and position < len(sequence):   # position < len(sequence); added to make the while loop save
+   if sequence[position] == "A":
+      a_count += 1
+   position += 1
+print(position - 1)
 
-print(position2 - 1)
-
+# for loop
 count2_a = 0
-
 for index, base in enumerate(sequence):
    if base == "A":
       count2_a += 1
-      if count2_a == 13:
+      if count2_a == count_a:
          print(index)
          break
+
+# Q: What happens if you look for the tenth A in the sequence?
+
+# A: If you set count_a = 10, the while loop crashes with an error,
+# because the 10th A never appears.
+# The for loop just finishes quietly and prints nothing, because
+# for stops by itself at the end of the sequence.
+
+############################################################
+
+## --- Nested loops ---
+
+# Example code
+
+sequences = ['ATCTGAGTCCACACATG', 'GCGTCGTGCGATGTTCACGTTGAT',
+             'CAGTAGTACTCAGT', 'GGTATGCTAGACGAGATCTAATA']
+codons = ['CCA', 'TGT', 'GTA', 'TAG']
+
+for sequence in sequences:
+   for codon in codons:
+      if codon in sequence:
+         print(codon + " is in " + sequence)
+
+# See if you can follow every line and work out how this example code works.
+
+# A: For each sequence loop through the list of codons.
+# If there is a codon in the sequence, print which codon
+# is in which sequence.
+
+# A (Claude): The outer loop picks one sequence at a time,
+# and for that sequence the inner loop checks all four
+# codons before moving on to the next sequence.
+# codon in sequence checks whether the three letters appear
+# anywhere in the string, and only matches are printed.
+
+
+# nested for loop which looks for start and stop codons in sequences
+
+# st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
+# seq_with_st_codons = []
+
+# for sequence in sequences:
+#    found = []
+#    for codon in st_codons:
+#       if codon in sequence:
+#          found.append(codon)
+#          print(codon + " is in " + sequence)
+
+#    has_start = 'ATG' in found
+#    has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
+#    if has_start and has_stop:
+#       seq_with_st_codons.append(sequence)
+#       print(f"{sequence} has both a start and a stop codon")
+
+# print(seq_with_st_codons)
+
+# Q: Which sequences have both a start and a stop codon?
+
+# A: 'ATCTGAGTCCACACATG', 'GCGTCGTGCGATGTTCACGTTGAT', 'GGTATGCTAGACGAGATCTAATA'
+
+
+# Find the sequences where the start codon appears before a stop codon
+
+st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
+seq_with_st_codons = []
+start_before_stop = []
+
+for sequence in sequences:
+   found = []
+   for codon in st_codons:
+      if codon in sequence:
+         found.append(codon)
+         print(codon + " is in " + sequence)
+
+   has_start = 'ATG' in found
+   has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
+   if has_start and has_stop:
+      seq_with_st_codons.append(sequence)
+      print(f"{sequence} has both a start and a stop codon")
+
+      start_pos = sequence.find('ATG')
+      for stop in ['TAA', 'TAG', 'TGA']:
+         if sequence.find(stop, start_pos + 3) != -1:
+            start_before_stop.append(sequence)
+            break
+
+print(start_before_stop)
+
+# The second argument to .find() says where to start searching,
+# so start_pos + 3 means "only look after the ATG". The break
+# stops the same sequence from being added twice if it has
+# several stop codons after the start.
+
+# Q: Which sequence(s) have a start codon before a stop codon?
+
+# A: 'GCGTCGTGCGATGTTCACGTTGAT', 'GGTATGCTAGACGAGATCTAATA'
