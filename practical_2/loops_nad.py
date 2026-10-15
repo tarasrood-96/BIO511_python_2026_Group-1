@@ -197,23 +197,23 @@ for sequence in sequences:
 
 # nested for loop which looks for start and stop codons in sequences
 
-# st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
-# seq_with_st_codons = []
+st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
+seq_with_st_codons = []
 
-# for sequence in sequences:
-#    found = []
-#    for codon in st_codons:
-#       if codon in sequence:
-#          found.append(codon)
-#          print(codon + " is in " + sequence)
+for sequence in sequences:
+   found = []
+   for codon in st_codons:
+      if codon in sequence:
+         found.append(codon)
+         print(codon + " is in " + sequence)
 
-#    has_start = 'ATG' in found
-#    has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
-#    if has_start and has_stop:
-#       seq_with_st_codons.append(sequence)
-#       print(f"{sequence} has both a start and a stop codon")
+   has_start = 'ATG' in found
+   has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
+   if has_start and has_stop:
+      seq_with_st_codons.append(sequence)
+      print(f"{sequence} has both a start and a stop codon")
 
-# print(seq_with_st_codons)
+print(seq_with_st_codons)
 
 # Q: Which sequences have both a start and a stop codon?
 
@@ -222,30 +222,30 @@ for sequence in sequences:
 
 # Find the sequences where the start codon appears before a stop codon
 
-# st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
-# seq_with_st_codons = []
-# start_before_stop = []
+st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
+seq_with_st_codons = []
+start_before_stop = []
 
-# for sequence in sequences:
-#    found = []
-#    for codon in st_codons:
-#       if codon in sequence:
-#          found.append(codon)
-#          print(codon + " is in " + sequence)
+for sequence in sequences:
+   found = []
+   for codon in st_codons:
+      if codon in sequence:
+         found.append(codon)
+         print(codon + " is in " + sequence)
 
-#    has_start = 'ATG' in found
-#    has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
-#    if has_start and has_stop:
-#       seq_with_st_codons.append(sequence)
-#       print(f"{sequence} has both a start and a stop codon")
+   has_start = 'ATG' in found
+   has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
+   if has_start and has_stop:
+      seq_with_st_codons.append(sequence)
+      print(f"{sequence} has both a start and a stop codon")
 
-#       start_pos = sequence.find('ATG')
-#       for stop in ['TAA', 'TAG', 'TGA']:
-#          if sequence.find(stop, start_pos + 3) != -1:
-#             start_before_stop.append(sequence)
-#             break
+      start_pos = sequence.find('ATG')
+      for stop in ['TAA', 'TAG', 'TGA']:
+         if sequence.find(stop, start_pos + 3) != -1:
+            start_before_stop.append(sequence)
+            break
 
-# print(start_before_stop)
+print(start_before_stop)
 
 # The second argument to .find() says where to start searching,
 # so start_pos + 3 means "only look after the ATG". The break
