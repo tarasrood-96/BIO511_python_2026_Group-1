@@ -222,30 +222,30 @@ for sequence in sequences:
 
 # Find the sequences where the start codon appears before a stop codon
 
-st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
-seq_with_st_codons = []
-start_before_stop = []
+# st_codons = ['ATG', 'TAA', 'TAG', 'TGA']
+# seq_with_st_codons = []
+# start_before_stop = []
 
-for sequence in sequences:
-   found = []
-   for codon in st_codons:
-      if codon in sequence:
-         found.append(codon)
-         print(codon + " is in " + sequence)
+# for sequence in sequences:
+#    found = []
+#    for codon in st_codons:
+#       if codon in sequence:
+#          found.append(codon)
+#          print(codon + " is in " + sequence)
 
-   has_start = 'ATG' in found
-   has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
-   if has_start and has_stop:
-      seq_with_st_codons.append(sequence)
-      print(f"{sequence} has both a start and a stop codon")
+#    has_start = 'ATG' in found
+#    has_stop = 'TAA' in found or 'TAG' in found or 'TGA' in found
+#    if has_start and has_stop:
+#       seq_with_st_codons.append(sequence)
+#       print(f"{sequence} has both a start and a stop codon")
 
-      start_pos = sequence.find('ATG')
-      for stop in ['TAA', 'TAG', 'TGA']:
-         if sequence.find(stop, start_pos + 3) != -1:
-            start_before_stop.append(sequence)
-            break
+#       start_pos = sequence.find('ATG')
+#       for stop in ['TAA', 'TAG', 'TGA']:
+#          if sequence.find(stop, start_pos + 3) != -1:
+#             start_before_stop.append(sequence)
+#             break
 
-print(start_before_stop)
+# print(start_before_stop)
 
 # The second argument to .find() says where to start searching,
 # so start_pos + 3 means "only look after the ATG". The break
@@ -255,3 +255,100 @@ print(start_before_stop)
 # Q: Which sequence(s) have a start codon before a stop codon?
 
 # A: 'GCGTCGTGCGATGTTCACGTTGAT', 'GGTATGCTAGACGAGATCTAATA'
+
+############################################################
+
+## ---- Loop through a dictionary ----
+
+# Example:
+
+# Build a simple dict with the keys pat_001, pat_002 and
+# pat_003 that has a value each. Here, the values are lists:
+
+data = {
+   'pat_001': ['bacZZt98', 'bac889Ytd'],
+   'pat_002': ['bac0GFrr'], 
+   'pat_003': ['bac889Ytd', 'bacFq55Hj', 'bacZZt98']
+}
+
+# Loop through the dict printing each key and each value as a list.
+
+# for key_patient, value_bact_list in data.items():
+#    print(key_patient)
+#    print(value_bact_list)
+
+# .items() is what lets you get both the key and the value in each
+# round of the loop
+
+# data.keys(); only keys
+# data.values(); only values
+
+# add a line to see if the value (list) has the bacterial strain 'bac889Ytd'. 
+# If it does it should return 'True'. If not, it should say 'False'.
+
+for key_patient, value_bact_list in data.items():
+   print(key_patient)
+   print(value_bact_list)
+   print('bac889Ytd' in value_bact_list)
+
+
+# Exercise: reverse the dictionary
+
+# The dictionary data links each patient to a list of bacterial strains.
+# In this exercise, you will build the reverse relationship: each
+# bacterium should be linked to the patients in which it occurs.
+
+# Work through the following steps. Do not import any additional modules.
+
+
+# 1. Collect the unique bacteria
+
+# Create an empty list called unique_bacteria.
+
+unique_bacteria = []
+
+# Loop through data and then through each patient’s list of bacteria.
+# Add a bacterium to unique_bacteria only if it is not already in
+# the list.
+
+# Print the list. It should contain each bacterium once.
+
+# Hint: Use the append() method and an if statement.
+
+for key_patient, value_bact_list in data.items():
+   for bacterium in value_bact_list:
+      if bacterium not in unique_bacteria:
+         unique_bacteria.append(bacterium)
+print(unique_bacteria)
+
+
+# 2. Create the reverse dictionary
+
+# Create an empty dictionary called bacteria_to_patients.
+
+bacteria_to_patients = {}
+
+# Use the list from step 1 to add each unique bacterium as a key.
+# Give every key an empty list as its value.
+
+# Hint: To check whether a bacterium is already a dictionary key,
+# use if bacterium not in bacteria_to_patients.
+
+for bacterium in unique_bacteria:
+   if bacterium not in bacteria_to_patients:
+      bacteria_to_patients[bacterium] = []
+print(bacteria_to_patients)
+
+
+# 3. Add the patients to the reverse dictionary
+
+# Loop through data again. For each patient and bacterium, append
+# the patient ID to the list belonging to that bacterium.
+
+# Print the completed dictionary.
+
+for key_patient, value_bact_list in data.items():
+   for bacterium in value_bact_list:
+      if key_patient not in bacteria_to_patients[bacterium]:
+         bacteria_to_patients[bacterium].append(key_patient)
+print(bacteria_to_patients)
