@@ -38,6 +38,7 @@ for record in records:
 
 # python fasta_toolkit_nad.py
 
+##################################################################
 
 # --- Reverse complements to a new FASTA ---
 
@@ -65,3 +66,57 @@ print(f"Wrote {count} reverse-complement records to dna_rc_nad.fasta")
 
 # python fasta_toolkit_nad.py
 # head -6 dna_rc_nad.fasta
+
+##################################################################
+
+# ---- GC% annotation to a new FASTA ----
+
+gc_records = []
+
+for record in records:
+    # 1. Calculate the GC% of the sequence
+    seq = record.seq.upper()
+    gc = 100 * (seq.count("G") + seq.count("C")) / len(seq)
+
+    # 2. Round to 1 decimal place
+    gc = round(gc, 1)
+
+    # 3. Create a copy of the record with GC% in the description
+    gc_record = SeqRecord(
+        record.seq,
+        id=record.id,
+        description=f"GC={gc}%"
+    )
+    gc_records.append(gc_record)
+
+# 4. Write the annotated records to a new FASTA file
+count = SeqIO.write(gc_records, "dna_with_gc_nad.fasta", "fasta")
+print(f"Wrote {count} GC-annotated records to dna_with_gc_nad.fasta")
+
+# Run it and check the headers
+
+# python fasta_toolkit_nad.py
+# grep ">" dna_with_gc_nad.fasta
+
+##################################################################
+
+# ----- Translation -----
+
+# 1. Translate each DNA sequence and print the first 10 amino acids
+print()
+print("Translations (first 10 amino acids):")
+for record in records:
+    # Trim the sequence to a multiple of 3, so there are no leftover bases
+    usable_length = len(record.seq) - len(record.seq) % 3
+    protein = record.seq[:usable_length].translate()
+    print(f"{record.id}: {protein[:10]}")
+
+# 2. Read dna_rc_nad.fasta back in and check the IDs and descriptions
+print()
+print("Records in dna_rc_nad.fasta:")
+for record in SeqIO.parse("dna_rc_nad.fasta", "fasta"):
+    print(f"ID: {record.id} | Description: {record.description}")
+
+# Run it
+
+# python fasta_toolkit_nad.py
